@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TermsModal } from "@/components/ui/terms-modal";
 import { useLanguage } from "@/context/LanguageContext";
-import { supabase } from "@/lib/supabase";
-import { Droplets } from "lucide-react";
+import { isSupabaseConfigured, supabase } from "@/lib/supabase";
+import { AlertTriangle, Droplets } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -16,6 +16,7 @@ import { toast } from "sonner";
 export default function RegisterPage() {
     const router = useRouter();
     const { t } = useLanguage();
+    const isConfigured = isSupabaseConfigured();
     const [loading, setLoading] = useState(false);
     const [isTermsOpen, setIsTermsOpen] = useState(false);
     const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -100,6 +101,18 @@ export default function RegisterPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
+                    {!isConfigured && (
+                        <div className="bg-red-50 dark:bg-red-900/10 border-l-4 border-red-500 p-4 mb-6 rounded-r-xl">
+                            <div className="flex items-center gap-2 mb-1">
+                                <AlertTriangle className="h-5 w-5 text-red-500" />
+                                <h3 className="font-bold text-red-700 dark:text-red-400 text-sm uppercase tracking-wide">Error de Configuración</h3>
+                            </div>
+                            <p className="text-xs text-red-600/90 dark:text-red-300">
+                                Faltan variables de entorno en Vercel.<br />
+                                <span className="font-mono bg-red-100 dark:bg-red-900/30 px-1 rounded">NEXT_PUBLIC_SUPABASE_URL</span> y <span className="font-mono bg-red-100 dark:bg-red-900/30 px-1 rounded">ANON_KEY</span> son requeridas.
+                            </p>
+                        </div>
+                    )}
                     <form onSubmit={handleRegister} className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="fullName">Nombre Completo</Label>
