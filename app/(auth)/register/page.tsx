@@ -75,7 +75,13 @@ export default function RegisterPage() {
 
         } catch (err: any) {
             console.error("Catch block caught:", err);
-            toast.error(err.message || "Error al registrarse");
+            let message = err.message || t("auth_errors.general_error");
+
+            if (message.includes("User already registered")) {
+                message = `${t("auth_errors.user_already_exists")} ${t("auth_errors.suggest_login")}`;
+            }
+
+            toast.error(message);
         } finally {
             setLoading(false);
         }

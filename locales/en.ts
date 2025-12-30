@@ -16,6 +16,13 @@ export const en = {
         register_confirmation: "Registration started. Please check your email if necessary.",
         already_have_account: "Already have an account?",
     },
+    auth_errors: {
+        invalid_login: "Invalid email or password.",
+        user_already_exists: "This email is already registered.",
+        suggest_register: "Don't have an account? Register.",
+        suggest_login: "Try logging in.",
+        general_error: "Something went wrong. Please try again.",
+    },
     nav: {
         dashboard: "Dashboard",
         pools: "My Pools",

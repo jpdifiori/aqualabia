@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useLanguage } from "@/context/LanguageContext";
 import { supabase } from "@/lib/supabase";
 import { Droplets } from "lucide-react";
 import Link from "next/link";
@@ -13,6 +14,7 @@ import { toast } from "sonner";
 
 export default function LoginPage() {
     const router = useRouter();
+    const { t } = useLanguage();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
@@ -41,7 +43,13 @@ export default function LoginPage() {
 
         } catch (err: any) {
             console.error(err);
-            toast.error(err.message || "Error al iniciar sesión");
+            let message = err.message || t("auth_errors.general_error");
+
+            if (message.includes("Invalid login credentials")) {
+                message = `${t("auth_errors.invalid_login")} ${t("auth_errors.suggest_register")}`;
+            }
+
+            toast.error(message);
         } finally {
             setLoading(false);
         }

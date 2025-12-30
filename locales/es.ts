@@ -16,6 +16,13 @@ export const es = {
         register_confirmation: "Registro iniciado. Por favor verifica tu email si es necesario.",
         already_have_account: "¿Ya tienes una cuenta?",
     },
+    auth_errors: {
+        invalid_login: "Usuario o contraseña incorrectos.",
+        user_already_exists: "Este correo ya está registrado.",
+        suggest_register: "¿No tienes cuenta? Regístrate.",
+        suggest_login: "Intenta iniciar sesión.",
+        general_error: "Ocurrió un error. Inténtalo de nuevo.",
+    },
     nav: {
         dashboard: "Panel",
         pools: "Mis Piletas",
