@@ -69,7 +69,13 @@ export default function PoolDetailPage() {
                     .eq('pool_id', id)
                     .order('measured_at', { ascending: false });
 
-                if (!histError) setHistory(histData || []);
+                if (!histError) {
+                    setHistory(histData || []);
+                    // Hydrate treatment plan from latest measurement if available
+                    if (histData && histData.length > 0 && histData[0].ai_analysis_json) {
+                        setTreatmentPlan(histData[0].ai_analysis_json);
+                    }
+                }
 
             } catch (err: any) {
                 toast.error("Error al cargar los datos de la pileta");
@@ -419,12 +425,6 @@ export default function PoolDetailPage() {
                             </CardContent>
                         </Card>
                     </div>
-
-                    {treatmentPlan && (
-                        <div className="mt-8">
-                            <MaintenanceSchedule plan={treatmentPlan} poolId={id as string} />
-                        </div>
-                    )}
                 </TabsContent>
 
                 {/* Manual Measurement Tab */}
@@ -531,12 +531,6 @@ export default function PoolDetailPage() {
                             </Button>
                         </CardContent>
                     </Card>
-
-                    {treatmentPlan && (
-                        <div className="mt-8">
-                            <MaintenanceSchedule plan={treatmentPlan} poolId={id as string} />
-                        </div>
-                    )}
                 </TabsContent>
 
                 {/* History Tab */}
@@ -576,6 +570,13 @@ export default function PoolDetailPage() {
                     </div>
                 </TabsContent>
             </Tabs>
+
+            {/* Persistent Maintenance Schedule at the bottom */}
+            {treatmentPlan && (
+                <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    <MaintenanceSchedule plan={treatmentPlan} poolId={id as string} />
+                </div>
+            )}
         </div>
     );
 }
