@@ -48,14 +48,14 @@ export function LandingPage() {
     return (
         <div className="bg-white dark:bg-slate-950 text-slate-900 dark:text-white selection:bg-blue-500 selection:text-white">
             {/* Hero Section */}
-            <section ref={targetRef} className="relative min-h-[85vh] flex items-center justify-center overflow-hidden py-12 px-6">
+            <section ref={targetRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20 px-4 sm:px-6">
                 <motion.div style={{ opacity, scale }} className="absolute inset-0 z-0">
-                    <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 via-transparent to-white dark:to-slate-950 z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-slate-50/90 via-slate-50/50 to-slate-50 dark:from-slate-950/90 dark:via-slate-950/50 dark:to-slate-950 z-10" />
                     <Image
                         src="/images/landing/hero_pool.png"
                         alt="Modern Luxury Pool"
                         fill
-                        className="object-cover opacity-60 dark:opacity-40"
+                        className="object-cover opacity-80 dark:opacity-40 brightness-110"
                         priority
                     />
                 </motion.div>
@@ -64,46 +64,47 @@ export function LandingPage() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
                     >
-                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-black uppercase tracking-widest mb-6">
-                            <Zap className="h-4 w-4 fill-current" /> {t("hero.badge")}
-                        </span>
-                        <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-[1.1] max-w-4xl mx-auto px-4">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/50 dark:bg-slate-800/50 backdrop-blur-md border border-white/50 dark:border-slate-700 shadow-sm text-blue-600 dark:text-blue-400 text-xs font-black uppercase tracking-widest mb-8">
+                            <Zap className="h-3.5 w-3.5 fill-current" /> {t("hero.badge")}
+                        </div>
+                        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-8 leading-[1] max-w-5xl mx-auto drop-shadow-sm text-slate-900 dark:text-white">
                             {t("hero.title_1")} <br className="hidden sm:block" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 italic">{t("hero.title_2")}</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 bg-[200%_auto] animate-gradient italic px-2">{t("hero.title_2")}</span>
                         </h1>
-                        <p className="max-w-md md:max-w-lg mx-auto text-sm sm:text-base md:text-lg text-slate-500 dark:text-slate-400 font-medium mb-10 leading-relaxed px-4">
+                        <p className="max-w-xl mx-auto text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 font-medium mb-12 leading-relaxed px-4 text-balance">
                             {t("hero.subtitle")}
                         </p>
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Link href="/register">
-                                <Button className="h-16 px-10 rounded-2xl bg-blue-600 hover:bg-blue-700 text-lg font-bold shadow-2xl shadow-blue-500/30 transition-all hover:scale-105 active:scale-95">
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                            <Link href="/register" className="w-full sm:w-auto">
+                                <Button className="w-full sm:w-auto h-14 sm:h-16 px-8 sm:px-12 rounded-full bg-blue-600 hover:bg-blue-700 text-lg font-bold shadow-xl shadow-blue-500/25 transition-all hover:scale-105 active:scale-95 ring-[6px] ring-blue-500/10">
                                     {t("common.start_free")} <ArrowRight className="ml-2 h-5 w-5" />
                                 </Button>
                             </Link>
-                            <Link href="/login">
-                                <Button variant="outline" className="h-16 px-10 rounded-2xl text-lg font-bold border-2 transition-all hover:bg-slate-50 dark:hover:bg-slate-800">
+                            <Link href="/login" className="w-full sm:w-auto">
+                                <Button variant="outline" className="w-full sm:w-auto h-14 sm:h-16 px-8 sm:px-12 rounded-full text-lg font-bold border-2 border-slate-200 dark:border-slate-800 bg-transparent hover:bg-white dark:hover:bg-slate-800 transition-all hover:scale-105 active:scale-95 text-slate-600 dark:text-slate-300">
                                     {t("common.login")}
                                 </Button>
                             </Link>
                         </div>
                     </motion.div>
                 </div>
-
-                {/* Micro-animations Background */}
-                <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-white dark:from-slate-950 to-transparent z-20" />
             </section>
 
             {/* Importance Section */}
-            <section className="py-16 px-6 relative">
-                <div className="container mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-16 items-center">
+            <section className="py-24 px-4 sm:px-6 relative overflow-hidden">
+                {/* Decorative Blobs */}
+                <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+
+                <div className="container mx-auto relative z-10">
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-20 items-center">
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
+                            initial={{ opacity: 0, scale: 0.95, rotate: -2 }}
+                            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
                             viewport={{ once: true }}
-                            className="md:col-span-2 relative aspect-[4/3] rounded-[24px] md:rounded-[32px] overflow-hidden shadow-xl"
+                            transition={{ duration: 0.8 }}
+                            className="md:col-span-2 relative aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl shadow-blue-900/10"
                         >
                             <Image
                                 src="/images/landing/clean_water.png"
@@ -111,22 +112,22 @@ export function LandingPage() {
                                 fill
                                 className="object-cover"
                             />
-                            <div className="absolute inset-0 bg-blue-600/5 mix-blend-overlay" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent" />
                         </motion.div>
 
-                        <div className="md:col-span-3 space-y-6">
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black leading-tight tracking-tight text-slate-800 dark:text-white">
+                        <div className="md:col-span-3 space-y-8">
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-none tracking-tighter text-slate-900 dark:text-white">
                                 {t("importance.title")} <br />
                                 <span className="text-blue-600 italic">{t("importance.subtitle")}</span>
                             </h2>
-                            <div className="space-y-4 text-base text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl">
+                            <div className="space-y-4 text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl">
                                 <p>{t("importance.text_1")}</p>
-                                <p className="font-bold text-slate-700 dark:text-slate-300">
+                                <p className="font-bold text-slate-900 dark:text-white">
                                     {t("importance.text_2")}
                                 </p>
                             </div>
 
-                            <div className="grid gap-4">
+                            <div className="grid gap-5">
                                 {[
                                     { icon: ShieldCheck, title: t("importance.feature_1_title"), desc: t("importance.feature_1_desc") },
                                     { icon: Zap, title: t("importance.feature_2_title"), desc: t("importance.feature_2_desc") },
@@ -134,18 +135,18 @@ export function LandingPage() {
                                 ].map((item, i) => (
                                     <motion.div
                                         key={i}
-                                        initial={{ opacity: 0, y: 15 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
+                                        initial={{ opacity: 0, x: 20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ delay: i * 0.1 }}
-                                        className="flex gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800"
+                                        className="flex gap-5 p-5 rounded-3xl bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-100 dark:border-slate-800"
                                     >
-                                        <div className="h-8 w-8 bg-blue-500 rounded-lg flex items-center justify-center text-white shrink-0">
-                                            <item.icon className="h-4 w-4" />
+                                        <div className="h-12 w-12 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+                                            <item.icon className="h-6 w-6" />
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-slate-800 dark:text-white uppercase text-[10px] tracking-wider mb-0.5">{item.title}</h4>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400">{item.desc}</p>
+                                            <h4 className="font-bold text-slate-900 dark:text-white text-base mb-1">{item.title}</h4>
+                                            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{item.desc}</p>
                                         </div>
                                     </motion.div>
                                 ))}
