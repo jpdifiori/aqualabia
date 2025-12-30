@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { addDays, format, isSameDay } from "date-fns";
 import { es } from "date-fns/locale";
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertTriangle, CalendarIcon, Check, CheckCircle2, Info, Waves } from "lucide-react";
+import { AlertTriangle, CalendarIcon, Check, CheckCircle2, ChevronLeft, ChevronRight, Info, Waves } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -286,53 +286,69 @@ export function MaintenanceSchedule({ plan, poolId }: MaintenanceScheduleProps) 
                         <CalendarIcon className="h-5 w-5 text-blue-500" />
                         Cronograma Semanal
                     </h3>
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
-                        Próximos 60 días
-                    </span>
+                    <div className="flex items-center gap-2">
+                        <button
+                            onClick={() => scrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
+                            className="h-8 w-8 rounded-full border bg-white dark:bg-slate-800 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
+                        >
+                            <ChevronLeft className="h-4 w-4" />
+                        </button>
+                        <button
+                            onClick={() => scrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
+                            className="h-8 w-8 rounded-full border bg-white dark:bg-slate-800 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
+                        >
+                            <ChevronRight className="h-4 w-4" />
+                        </button>
+                    </div>
                 </div>
 
-                <div
-                    ref={scrollRef}
-                    className="flex gap-3 overflow-x-auto pb-4 pt-2 -mx-4 px-4 scrollbar-hide no-scrollbar items-center mask-fade-edges"
-                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                >
-                    {days.map((date, i) => {
-                        const isSelected = isSameDay(date, selectedDate);
-                        const tasksThisDay = tasks.filter(t => isSameDay(new Date(t.scheduled_date + 'T12:00:00'), date));
-                        const hasTasks = tasksThisDay.length > 0;
-                        const allCompleted = hasTasks && tasksThisDay.every(t => t.is_completed);
+                <div className="relative group">
+                    <div
+                        ref={scrollRef}
+                        className="flex gap-3 overflow-x-auto pb-4 pt-2 px-1 scrollbar-hide no-scrollbar items-center snap-x snap-mandatory"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    >
+                        {days.map((date, i) => {
+                            const isSelected = isSameDay(date, selectedDate);
+                            const tasksThisDay = tasks.filter(t => isSameDay(new Date(t.scheduled_date + 'T12:00:00'), date));
+                            const hasTasks = tasksThisDay.length > 0;
+                            const allCompleted = hasTasks && tasksThisDay.every(t => t.is_completed);
 
-                        return (
-                            <motion.button
-                                key={i}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => setSelectedDate(date)}
-                                className={cn(
-                                    "flex-shrink-0 w-16 h-20 rounded-2xl flex flex-col items-center justify-center transition-all border relative",
-                                    isSelected
-                                        ? "bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-200 dark:shadow-none"
-                                        : allCompleted
-                                            ? "bg-green-50 border-green-200 text-green-700 dark:bg-green-900/20 dark:border-green-900/30 dark:text-green-400"
-                                            : "bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 hover:border-blue-200"
-                                )}
-                            >
-                                <span className={cn(
-                                    "text-[10px] font-bold uppercase",
-                                    isSelected ? "text-blue-100" : allCompleted ? "text-green-600" : "text-slate-400"
-                                )}>
-                                    {format(date, 'eee', { locale: es })}
-                                </span>
-                                <span className="text-xl font-black">{format(date, 'd')}</span>
-                                {hasTasks && !isSelected && !allCompleted && (
-                                    <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-blue-500 rounded-full" />
-                                )}
-                                {allCompleted && !isSelected && (
-                                    <Check className="absolute top-2 right-2 h-3 w-3 text-green-500" />
-                                )}
-                            </motion.button>
-                        );
-                    })}
+                            return (
+                                <motion.button
+                                    key={i}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => setSelectedDate(date)}
+                                    className={cn(
+                                        "flex-shrink-0 w-16 h-20 rounded-2xl flex flex-col items-center justify-center transition-all border relative snap-start",
+                                        isSelected
+                                            ? "bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-200 dark:shadow-none scale-105 z-10"
+                                            : allCompleted
+                                                ? "bg-green-50 border-green-200 text-green-700 dark:bg-green-900/20 dark:border-green-900/30 dark:text-green-400"
+                                                : "bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 hover:border-blue-200"
+                                    )}
+                                >
+                                    <span className={cn(
+                                        "text-[10px] font-bold uppercase",
+                                        isSelected ? "text-blue-100" : allCompleted ? "text-green-600" : "text-slate-400"
+                                    )}>
+                                        {format(date, 'eee', { locale: es })}
+                                    </span>
+                                    <span className="text-xl font-black">{format(date, 'd')}</span>
+                                    {hasTasks && !isSelected && !allCompleted && (
+                                        <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                                    )}
+                                    {allCompleted && !isSelected && (
+                                        <Check className="absolute top-2 right-2 h-3 w-3 text-green-500" />
+                                    )}
+                                </motion.button>
+                            );
+                        })}
+                    </div>
+                    {/* Fade gradients */}
+                    <div className="absolute left-0 top-0 bottom-4 w-8 bg-gradient-to-r from-white dark:from-slate-950 to-transparent pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-white dark:from-slate-950 to-transparent pointer-events-none" />
                 </div>
             </div>
 
