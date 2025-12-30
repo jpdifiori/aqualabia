@@ -60,7 +60,7 @@ export function LandingPage() {
                     />
                 </motion.div>
 
-                <div className="container mx-auto relative z-20 text-center">
+                <div className="container mx-auto relative z-30 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
