@@ -335,15 +335,15 @@ export default function PoolDetailPage() {
             </div>
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid grid-cols-3 mb-8">
-                    <TabsTrigger value="analysis" className="gap-2">
-                        <Camera className="h-4 w-4" /> {t("pool_tabs.scan") || "Escanear"}
+                <TabsList className="grid grid-cols-3 mb-8 p-1 bg-slate-200/50 dark:bg-slate-800/50 rounded-full h-auto">
+                    <TabsTrigger value="analysis" className="gap-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm transition-all py-2.5">
+                        <Camera className="h-4 w-4" /> <span className="text-xs md:text-sm font-bold">{t("pool_tabs.scan") || "Escanear"}</span>
                     </TabsTrigger>
-                    <TabsTrigger value="manual" className="gap-2">
-                        <Beaker className="h-4 w-4" /> {t("pool_tabs.manual_load") || "Carga Manual"}
+                    <TabsTrigger value="manual" className="gap-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm transition-all py-2.5">
+                        <Beaker className="h-4 w-4" /> <span className="text-xs md:text-sm font-bold">{t("pool_tabs.manual_load") || "Carga Manual"}</span>
                     </TabsTrigger>
-                    <TabsTrigger value="history" className="gap-2">
-                        <History className="h-4 w-4" /> {t("pool_tabs.history") || "Historial"}
+                    <TabsTrigger value="history" className="gap-2 rounded-full data-[state=active]:bg-white dark:data-[state=active]:bg-slate-700 data-[state=active]:shadow-sm transition-all py-2.5">
+                        <History className="h-4 w-4" /> <span className="text-xs md:text-sm font-bold">{t("pool_tabs.history") || "Historial"}</span>
                     </TabsTrigger>
                 </TabsList>
 
