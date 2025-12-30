@@ -149,5 +149,10 @@ export const es = {
         accept_required: "Debes aceptar los términos y condiciones",
         i_accept: "Acepto los",
         title_short: "Términos y Condiciones",
+    },
+    pool_tabs: {
+        scan: "Escanear",
+        manual_load: "Carga Manual",
+        history: "Historial",
     }
 };

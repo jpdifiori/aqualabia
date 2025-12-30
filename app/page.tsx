@@ -60,34 +60,15 @@ export default function DashboardPage() {
     }, [user]);
 
     useEffect(() => {
-        const fetchLatestPlan = async () => {
-            if (!selectedPoolId) return;
+        if (!selectedPoolId || pools.length === 0) return;
 
-            setLoadingPlan(true);
-            try {
-                const { data, error } = await supabase
-                    .from('measurements')
-                    .select('ai_analysis_json')
-                    .eq('pool_id', selectedPoolId)
-                    .not('ai_analysis_json', 'is', null)
-                    .order('measured_at', { ascending: false })
-                    .limit(1)
-                    .single();
-
-                if (!error && data) {
-                    setSelectedPlan(data.ai_analysis_json);
-                } else {
-                    setSelectedPlan(null);
-                }
-            } catch (err) {
-                setSelectedPlan(null);
-            } finally {
-                setLoadingPlan(false);
-            }
-        };
-
-        fetchLatestPlan();
-    }, [selectedPoolId]);
+        const currentPool = pools.find(p => p.id === selectedPoolId);
+        if (currentPool && currentPool.last_treatment_plan) {
+            setSelectedPlan(currentPool.last_treatment_plan);
+        } else {
+            setSelectedPlan(null);
+        }
+    }, [selectedPoolId, pools]);
 
     const handleDelete = async (id: string) => {
         if (!confirm(t("dashboard.delete_confirm"))) return;

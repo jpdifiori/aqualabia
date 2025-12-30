@@ -138,6 +138,13 @@ export const generateTreatmentPlan = async (poolData: any, measurements: any, la
     {
       "status_summary": "Initial diagnosis and urgency level.",
       "priority": "high" | "medium" | "low",
+      "shopping_list": [
+        {
+          "item": "Product Name",
+          "quantity": "Total estimated amount for 2 months",
+          "notes": "Why is it needed?"
+        }
+      ],
       "immediate_steps": [
         {
           "action": "Shock Treatment / Recovery Action",
@@ -148,7 +155,7 @@ export const generateTreatmentPlan = async (poolData: any, measurements: any, la
       ],
       "maintenance_plan_daily": [
         {
-          "day_index": number (0 to 29),
+          "day_index": number (0 to 59),
           "tasks": [
             {
               "action": "Task name (max 2 per day)",

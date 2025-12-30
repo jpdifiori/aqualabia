@@ -13,6 +13,7 @@ interface Pool {
     material?: string;
     shape?: string;
     image_url?: string;
+    last_treatment_plan?: any;
 }
 
 interface PoolCardProps {
@@ -48,8 +49,22 @@ export function PoolCard({ pool, onEdit, onDelete, onSelect }: PoolCardProps) {
                 </CardHeader>
                 <CardContent>
                     <div className="flex justify-between items-center mt-2">
-                        <div className="text-sm text-slate-500 dark:text-slate-400 capitalize">
-                            {t(`materials.${pool.material || 'concrete'}`)} • {t(`shapes.${pool.shape || 'rectangular'}`)}
+                        <div className="flex flex-col gap-1">
+                            <div className="text-sm text-slate-500 dark:text-slate-400 capitalize">
+                                {t(`materials.${pool.material || 'concrete'}`)} • {t(`shapes.${pool.shape || 'rectangular'}`)}
+                            </div>
+                            {pool.last_treatment_plan?.status_summary ? (
+                                <div className="flex items-center gap-1.5 mt-1">
+                                    <div className={`h-2 w-2 rounded-full ${pool.last_treatment_plan.priority === 'alta' ? 'bg-red-500 animate-pulse' :
+                                            pool.last_treatment_plan.priority === 'media' ? 'bg-orange-500' : 'bg-green-500'
+                                        }`} />
+                                    <span className="text-xs font-bold text-slate-600 dark:text-slate-300 truncate max-w-[200px]">
+                                        {pool.last_treatment_plan.status_summary}
+                                    </span>
+                                </div>
+                            ) : (
+                                <span className="text-[10px] text-slate-400 italic mt-1">Sin análisis reciente</span>
+                            )}
                         </div>
                         <div className="flex gap-2">
                             <Button variant="ghost" size="icon" onClick={() => onEdit(pool.id)}>

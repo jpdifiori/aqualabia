@@ -147,7 +147,16 @@ export default function PoolDetailPage() {
                             if (tasksToInsert.length > 0) {
                                 await supabase.from('maintenance_tasks').insert(tasksToInsert);
                             }
+                            if (tasksToInsert.length > 0) {
+                                await supabase.from('maintenance_tasks').insert(tasksToInsert);
+                            }
                         }
+
+                        // Update latest plan in pool record
+                        await supabase
+                            .from('pools')
+                            .update({ last_treatment_plan: plan })
+                            .eq('id', id);
 
                         toast.success("Análisis y plan de mantenimiento guardados");
                     }
@@ -233,6 +242,12 @@ export default function PoolDetailPage() {
                     if (taskError) console.error("Error saving tasks:", taskError);
                 }
             }
+
+            // Update latest plan in pool record
+            await supabase
+                .from('pools')
+                .update({ last_treatment_plan: plan })
+                .eq('id', id);
 
             toast.success("Medición guardada y plan generado");
 
@@ -322,13 +337,13 @@ export default function PoolDetailPage() {
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList className="grid grid-cols-3 mb-8">
                     <TabsTrigger value="analysis" className="gap-2">
-                        <Camera className="h-4 w-4" /> {t("nav.dashboard")}
+                        <Camera className="h-4 w-4" /> {t("pool_tabs.scan") || "Escanear"}
                     </TabsTrigger>
                     <TabsTrigger value="manual" className="gap-2">
-                        <Beaker className="h-4 w-4" /> {t("common.edit")}
+                        <Beaker className="h-4 w-4" /> {t("pool_tabs.manual_load") || "Carga Manual"}
                     </TabsTrigger>
                     <TabsTrigger value="history" className="gap-2">
-                        <History className="h-4 w-4" /> {t("nav.pools")}
+                        <History className="h-4 w-4" /> {t("pool_tabs.history") || "Historial"}
                     </TabsTrigger>
                 </TabsList>
 

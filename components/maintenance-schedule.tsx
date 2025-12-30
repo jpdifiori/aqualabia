@@ -23,7 +23,7 @@ export function MaintenanceSchedule({ plan, poolId }: MaintenanceScheduleProps) 
 
     useEffect(() => {
         // Generate 30 days starting from today
-        const generatedDays = Array.from({ length: 30 }, (_, i) => addDays(new Date(), i));
+        const generatedDays = Array.from({ length: 60 }, (_, i) => addDays(new Date(), i));
         setDays(generatedDays);
         setSelectedDate(generatedDays[0]);
     }, []);
@@ -104,6 +104,28 @@ export function MaintenanceSchedule({ plan, poolId }: MaintenanceScheduleProps) 
                 </div>
             </div>
 
+            {/* Shopping List */}
+            {plan.shopping_list?.length > 0 && (
+                <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                    <h3 className="text-sm font-black uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-2">
+                        <Waves className="h-4 w-4" /> Compras Necesarias (2 Meses)
+                    </h3>
+                    <div className="grid gap-3">
+                        {plan.shopping_list.map((item: any, i: number) => (
+                            <div key={i} className="flex justify-between items-start border-b border-dashed border-slate-200 dark:border-slate-800 pb-2 last:border-0 last:pb-0">
+                                <div>
+                                    <p className="font-bold text-slate-900 dark:text-white text-sm">{item.item}</p>
+                                    <p className="text-[10px] text-slate-500">{item.notes}</p>
+                                </div>
+                                <span className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2 py-1 rounded text-xs font-bold whitespace-nowrap">
+                                    {item.quantity}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
             {/* Immediate Recovery Steps */}
             {plan.immediate_steps?.length > 0 && (
                 <div className="space-y-3">
@@ -137,7 +159,7 @@ export function MaintenanceSchedule({ plan, poolId }: MaintenanceScheduleProps) 
                         Cronograma Semanal
                     </h3>
                     <span className="text-xs font-bold text-slate-400 uppercase tracking-widest px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
-                        Próximos 30 días
+                        Próximos 60 días
                     </span>
                 </div>
 
