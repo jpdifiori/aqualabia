@@ -128,6 +128,11 @@ export const generateTreatmentPlan = async (poolData: any, measurements: any, la
     - pH testing max 1-2 times per week.
     - Simple and repeatable routines.
     - Avoid unnecessary technical jargon.
+    - IF THE STATUS IS CRITICAL/URGENT (e.g., green water, algae, very cloudy):
+      - YOU MUST PROVIDE A "SHOCK TREATMENT" IN "immediate_steps".
+      - Specify EXACT quantities (e.g., "200g per 10,000L", "Add 5 liters").
+      - Explain HOW to add it (e.g., "Dilute in a bucket", "Circulate for 4 hours").
+      - Focus on getting the pool clear FAST.
 
     JSON STRUCTURE (MANDATORY):
     {
@@ -135,10 +140,10 @@ export const generateTreatmentPlan = async (poolData: any, measurements: any, la
       "priority": "high" | "medium" | "low",
       "immediate_steps": [
         {
-          "action": "Recovery task",
-          "product": "Product name",
-          "amount": "Estimated amount",
-          "instructions": "Brief explanation"
+          "action": "Shock Treatment / Recovery Action",
+          "product": "Product Name (e.g., Chlorine Shock, Algaecide)",
+          "amount": "Precise Quantity (e.g., 2kg)",
+          "instructions": "Detailed usage method (e.g., 'Pre-dissolve in bucket, pour around edges, run pump 8hrs')"
         }
       ],
       "maintenance_plan_daily": [
