@@ -1,5 +1,4 @@
 "use client";
-import { Card } from "@/components/ui/card";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 import { addDays, format, isSameDay } from "date-fns";
@@ -128,24 +127,65 @@ export function MaintenanceSchedule({ plan, poolId }: MaintenanceScheduleProps) 
 
             {/* Immediate Recovery Steps */}
             {plan.immediate_steps?.length > 0 && (
-                <div className="space-y-3">
-                    <h3 className="text-lg font-bold flex items-center gap-2">
-                        <Waves className="h-5 w-5 text-blue-500" /> Plan de Recuperación Inmediata
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                            <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
+                        </div>
+                        <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                            Acciones Inmediatas
+                        </h3>
+                    </div>
+
+                    <div className="grid gap-4">
                         {plan.immediate_steps.map((step: any, i: number) => (
-                            <Card key={i} className="bg-white dark:bg-slate-800 border-none shadow-sm p-4 flex gap-4">
-                                <div className="h-10 w-10 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 font-black flex-shrink-0">
-                                    {i + 1}
-                                </div>
-                                <div>
-                                    <h4 className="font-bold text-slate-900 dark:text-white text-sm uppercase">{step.action}</h4>
-                                    <div className="text-[11px] font-medium text-slate-500 mt-0.5">
-                                        {step.product} • {step.amount}
+                            <div key={i} className="relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-100/50 dark:shadow-none p-5 flex flex-col md:flex-row gap-6">
+                                {/* Vertical Stripe decoration */}
+                                <div className="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-blue-500 to-cyan-400" />
+
+                                {/* Step Number & Action */}
+                                <div className="flex-shrink-0 flex md:flex-col items-center gap-3 min-w-[120px] md:border-r border-slate-100 dark:border-slate-800 md:pr-6">
+                                    <div className="h-10 w-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center font-black text-slate-400 text-lg">
+                                        {i + 1}
                                     </div>
-                                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 line-clamp-2">{step.instructions}</p>
+                                    <div className="text-center">
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Acción</span>
+                                        <span className="font-bold text-blue-600 dark:text-blue-400 text-sm uppercase leading-tight block">
+                                            {step.action}
+                                        </span>
+                                    </div>
                                 </div>
-                            </Card>
+
+                                {/* Product & Dosage */}
+                                <div className="flex-1 space-y-4">
+                                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                                        <div>
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Producto</span>
+                                            <h4 className="text-xl font-black text-slate-900 dark:text-white leading-none">
+                                                {step.product}
+                                            </h4>
+                                        </div>
+                                        <div className="bg-blue-50 dark:bg-blue-900/30 px-4 py-2 rounded-xl border border-blue-100 dark:border-blue-900/50 flex-shrink-0">
+                                            <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest block mb-0.5">Dosis Exacta</span>
+                                            <span className="text-lg font-black text-blue-700 dark:text-blue-300">
+                                                {step.amount}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-800">
+                                        <div className="flex items-start gap-2">
+                                            <Info className="h-4 w-4 text-slate-400 mt-0.5" />
+                                            <div>
+                                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Instrucciones</span>
+                                                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                                                    {step.instructions}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </div>
