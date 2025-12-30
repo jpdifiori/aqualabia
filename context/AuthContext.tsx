@@ -43,7 +43,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     const signOut = async () => {
-        await supabase.auth.signOut();
+        try {
+            await supabase.auth.signOut();
+        } catch (error) {
+            console.error("Error signing out:", error);
+        } finally {
+            // Force clear local state immediately to update UI without reload dependency
+            setSession(null);
+            setUser(null);
+        }
     };
 
     return (

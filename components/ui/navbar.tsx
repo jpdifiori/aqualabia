@@ -1,4 +1,3 @@
-"use client";
 
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
@@ -11,6 +10,7 @@ import { Button } from "./button";
 export function Navbar() {
     const { user, signOut } = useAuth();
     const { language, setLanguage, t } = useLanguage();
+    const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isLangOpen, setIsLangOpen] = useState(false);
 
@@ -101,7 +101,7 @@ export function Navbar() {
                                         onClick={async () => {
                                             await signOut();
                                             setIsMenuOpen(false);
-                                            window.location.href = "/"; // Hard redirect to ensure clean state on mobile
+                                            router.replace("/");
                                         }}
                                         className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
                                     >
