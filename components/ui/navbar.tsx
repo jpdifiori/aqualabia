@@ -98,9 +98,10 @@ export function Navbar() {
                                         {t("common.edit")}
                                     </Link>
                                     <button
-                                        onClick={() => {
-                                            signOut();
+                                        onClick={async () => {
+                                            await signOut();
                                             setIsMenuOpen(false);
+                                            window.location.href = "/"; // Hard redirect to ensure clean state on mobile
                                         }}
                                         className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
                                     >
