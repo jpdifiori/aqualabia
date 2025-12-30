@@ -55,6 +55,40 @@ export function MaintenanceSchedule({ plan, poolId }: MaintenanceScheduleProps) 
     // Get tasks for the selected day from persistent list
     const tasksForDay = tasks.filter(t => isSameDay(new Date(t.scheduled_date + 'T12:00:00'), selectedDate));
 
+    const [localPlan, setLocalPlan] = useState<any>(plan);
+
+    useEffect(() => {
+        setLocalPlan(plan);
+    }, [plan]);
+
+    const handleToggleImmediate = async (index: number, currentStatus: boolean) => {
+        if (!poolId || !localPlan) return;
+
+        const newSteps = [...localPlan.immediate_steps];
+        newSteps[index] = { ...newSteps[index], is_completed: !currentStatus };
+        const newPlan = { ...localPlan, immediate_steps: newSteps };
+
+        // Optimistic update
+        setLocalPlan(newPlan);
+
+        try {
+            const { error } = await supabase
+                .from('pools')
+                .update({ last_treatment_plan: newPlan })
+                .eq('id', poolId);
+
+            if (error) throw error;
+
+            if (!currentStatus) {
+                toast.success("Paso completado");
+            }
+        } catch (err) {
+            toast.error("Error al guardar el progreso");
+            // Revert on error
+            setLocalPlan(plan);
+        }
+    };
+
     const handleToggleTask = async (taskId: string, currentState: boolean) => {
         try {
             const { error } = await supabase
@@ -126,7 +160,7 @@ export function MaintenanceSchedule({ plan, poolId }: MaintenanceScheduleProps) 
             )}
 
             {/* Immediate Recovery Steps */}
-            {plan.immediate_steps?.length > 0 && (
+            {localPlan?.immediate_steps?.length > 0 && (
                 <div className="space-y-4">
                     <div className="flex items-center gap-2">
                         <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg">
@@ -138,50 +172,104 @@ export function MaintenanceSchedule({ plan, poolId }: MaintenanceScheduleProps) 
                     </div>
 
                     <div className="grid gap-4">
-                        {plan.immediate_steps.map((step: any, i: number) => (
-                            <div key={i} className="relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-100/50 dark:shadow-none p-5 flex flex-col md:flex-row gap-6">
-                                {/* Vertical Stripe decoration */}
-                                <div className="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-blue-500 to-cyan-400" />
+                        {localPlan.immediate_steps.map((step: any, i: number) => (
+                            <div
+                                key={i}
+                                onClick={() => handleToggleImmediate(i, step.is_completed)}
+                                className={cn(
+                                    "relative overflow-hidden rounded-3xl border shadow-xl transition-all cursor-pointer group",
+                                    step.is_completed
+                                        ? "bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-800 opacity-75"
+                                        : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-slate-100/50 dark:shadow-none hover:border-blue-300 dark:hover:border-blue-700"
+                                )}
+                            >
+                                <div className="p-5 flex flex-col md:flex-row gap-6">
+                                    {/* Vertical Stripe decoration */}
+                                    <div className={cn(
+                                        "absolute left-0 top-0 bottom-0 w-2 transition-colors",
+                                        step.is_completed ? "bg-slate-300 dark:bg-slate-700" : "bg-gradient-to-b from-blue-500 to-cyan-400"
+                                    )} />
 
-                                {/* Step Number & Action */}
-                                <div className="flex-shrink-0 flex md:flex-col items-center gap-3 min-w-[120px] md:border-r border-slate-100 dark:border-slate-800 md:pr-6">
-                                    <div className="h-10 w-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center font-black text-slate-400 text-lg">
-                                        {i + 1}
-                                    </div>
-                                    <div className="text-center">
-                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Acción</span>
-                                        <span className="font-bold text-blue-600 dark:text-blue-400 text-sm uppercase leading-tight block">
-                                            {step.action}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* Product & Dosage */}
-                                <div className="flex-1 space-y-4">
-                                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                                        <div>
-                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Producto</span>
-                                            <h4 className="text-xl font-black text-slate-900 dark:text-white leading-none">
-                                                {step.product}
-                                            </h4>
+                                    {/* Step Number & Action */}
+                                    <div className="flex-shrink-0 flex md:flex-col items-center gap-3 min-w-[120px] md:border-r border-slate-100 dark:border-slate-800 md:pr-6">
+                                        <div className={cn(
+                                            "h-10 w-10 rounded-full flex items-center justify-center font-black text-lg transition-colors",
+                                            step.is_completed
+                                                ? "bg-green-500 text-white"
+                                                : "bg-slate-100 dark:bg-slate-800 text-slate-400"
+                                        )}>
+                                            {step.is_completed ? <Check className="h-6 w-6" /> : i + 1}
                                         </div>
-                                        <div className="bg-blue-50 dark:bg-blue-900/30 px-4 py-2 rounded-xl border border-blue-100 dark:border-blue-900/50 flex-shrink-0">
-                                            <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest block mb-0.5">Dosis Exacta</span>
-                                            <span className="text-lg font-black text-blue-700 dark:text-blue-300">
-                                                {step.amount}
+                                        <div className="text-center">
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Acción</span>
+                                            <span className={cn(
+                                                "font-bold text-sm uppercase leading-tight block transition-colors",
+                                                step.is_completed ? "text-slate-500 line-through" : "text-blue-600 dark:text-blue-400"
+                                            )}>
+                                                {step.action}
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-4 border border-slate-100 dark:border-slate-800">
-                                        <div className="flex items-start gap-2">
-                                            <Info className="h-4 w-4 text-slate-400 mt-0.5" />
+                                    {/* Product & Dosage */}
+                                    <div className="flex-1 space-y-4">
+                                        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                                             <div>
-                                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Instrucciones</span>
-                                                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                                                    {step.instructions}
-                                                </p>
+                                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Producto</span>
+                                                <h4 className={cn(
+                                                    "text-xl font-black leading-none transition-colors",
+                                                    step.is_completed ? "text-slate-400 line-through" : "text-slate-900 dark:text-white"
+                                                )}>
+                                                    {step.product}
+                                                </h4>
                                             </div>
+                                            <div className={cn(
+                                                "px-4 py-2 rounded-xl border flex-shrink-0 transition-colors",
+                                                step.is_completed
+                                                    ? "bg-slate-100 dark:bg-slate-800 border-slate-200 text-slate-400"
+                                                    : "bg-blue-50 dark:bg-blue-900/30 border-blue-100 dark:border-blue-900/50"
+                                            )}>
+                                                <span className={cn(
+                                                    "text-[10px] font-bold uppercase tracking-widest block mb-0.5",
+                                                    step.is_completed ? "text-slate-400" : "text-blue-400"
+                                                )}>Dosis Exacta</span>
+                                                <span className={cn(
+                                                    "text-lg font-black",
+                                                    step.is_completed ? "text-slate-500" : "text-blue-700 dark:text-blue-300"
+                                                )}>
+                                                    {step.amount}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className={cn(
+                                            "rounded-xl p-4 border transition-colors",
+                                            step.is_completed ? "bg-transparent border-transparent" : "bg-slate-50 dark:bg-slate-800/50 border-slate-100 dark:border-slate-800"
+                                        )}>
+                                            <div className="flex items-start gap-2">
+                                                <Info className="h-4 w-4 text-slate-400 mt-0.5" />
+                                                <div>
+                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Instrucciones</span>
+                                                    <p className={cn(
+                                                        "text-sm leading-relaxed transition-colors",
+                                                        step.is_completed ? "text-slate-400" : "text-slate-600 dark:text-slate-300"
+                                                    )}>
+                                                        {step.instructions}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Checkbox Visual */}
+                                    <div className="hidden md:flex items-center justify-center pl-4 border-l border-slate-100 dark:border-slate-800">
+                                        <div className={cn(
+                                            "w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all",
+                                            step.is_completed
+                                                ? "bg-green-500 border-green-500 text-white"
+                                                : "border-slate-300 dark:border-slate-600 text-transparent group-hover:border-blue-400"
+                                        )}>
+                                            <Check className="h-5 w-5" />
                                         </div>
                                     </div>
                                 </div>
