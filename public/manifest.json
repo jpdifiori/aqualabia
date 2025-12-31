@@ -1,6 +1,6 @@
 {
-    "name": "PoolPal AI",
-    "short_name": "PoolPal",
+    "name": "aqualabia",
+    "short_name": "aqualabia",
     "description": "Tu experto en mantenimiento de piletas con IA.",
     "start_url": "/",
     "display": "standalone",
@@ -9,8 +9,8 @@
     "icons": [
         {
             "src": "/favicon.ico",
-            "sizes": "64x64 32x32 24x24 16x16",
-            "type": "image/x-icon"
+            "sizes": "1024x1024",
+            "type": "image/png"
         },
         {
             "src": "/icons/icon-192x192.png",

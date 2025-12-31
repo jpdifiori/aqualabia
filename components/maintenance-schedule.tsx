@@ -193,12 +193,12 @@ export function MaintenanceSchedule({ plan, poolId }: MaintenanceScheduleProps) 
                                     {/* Step Number & Action */}
                                     <div className="flex-shrink-0 flex md:flex-col items-center gap-3 min-w-[120px] md:border-r border-slate-100 dark:border-slate-800 md:pr-6">
                                         <div className={cn(
-                                            "h-10 w-10 rounded-full flex items-center justify-center font-black text-lg transition-colors",
+                                            "h-10 w-10 rounded-full flex items-center justify-center font-black text-lg transition-all",
                                             step.is_completed
-                                                ? "bg-green-500 text-white"
-                                                : "bg-slate-100 dark:bg-slate-800 text-slate-400"
+                                                ? "bg-slate-200 dark:bg-slate-800 text-slate-500"
+                                                : "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
                                         )}>
-                                            {step.is_completed ? <Check className="h-6 w-6" /> : i + 1}
+                                            {i + 1}
                                         </div>
                                         <div className="text-center">
                                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1">Acción</span>
@@ -261,16 +261,30 @@ export function MaintenanceSchedule({ plan, poolId }: MaintenanceScheduleProps) 
                                         </div>
                                     </div>
 
-                                    {/* Checkbox Visual */}
-                                    <div className="hidden md:flex items-center justify-center pl-4 border-l border-slate-100 dark:border-slate-800">
-                                        <div className={cn(
-                                            "w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all",
-                                            step.is_completed
-                                                ? "bg-green-500 border-green-500 text-white"
-                                                : "border-slate-300 dark:border-slate-600 text-transparent group-hover:border-blue-400"
-                                        )}>
-                                            <Check className="h-5 w-5" />
-                                        </div>
+                                    {/* Checkbox Visual / Large Done Indicator */}
+                                    <div className="flex items-center justify-center pl-4 md:border-l border-slate-100 dark:border-slate-800">
+                                        <AnimatePresence mode="wait">
+                                            {step.is_completed ? (
+                                                <motion.div
+                                                    initial={{ scale: 0, opacity: 0, rotate: -45 }}
+                                                    animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                                                    className="flex flex-col items-center gap-1"
+                                                >
+                                                    <div className="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center text-white shadow-lg shadow-green-500/20">
+                                                        <Check className="h-10 w-10 stroke-[4px]" />
+                                                    </div>
+                                                    <span className="text-[10px] font-black text-green-600 uppercase tracking-tighter">Completado</span>
+                                                </motion.div>
+                                            ) : (
+                                                <motion.div
+                                                    initial={{ opacity: 0 }}
+                                                    animate={{ opacity: 1 }}
+                                                    className="w-12 h-12 rounded-full border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center text-transparent group-hover:border-blue-400 group-hover:text-blue-400 transition-all"
+                                                >
+                                                    <Check className="h-6 w-6" />
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </div>
                                 </div>
                             </div>

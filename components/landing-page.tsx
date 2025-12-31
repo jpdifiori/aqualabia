@@ -93,41 +93,53 @@ export function LandingPage() {
             </section>
 
             {/* Importance Section */}
-            <section className="py-24 px-4 sm:px-6 relative overflow-hidden">
+            <section className="py-12 md:py-24 px-4 sm:px-6 relative overflow-hidden -mt-10 sm:-mt-20">
                 {/* Decorative Blobs */}
                 <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
 
-                <div className="container mx-auto relative z-10">
+                <div className="container mx-auto relative z-10 px-4 sm:px-6">
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-20 items-center">
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95, rotate: -2 }}
-                            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            whileInView={{ opacity: 1, scale: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8 }}
-                            className="md:col-span-2 relative aspect-[4/5] rounded-[40px] overflow-hidden shadow-2xl shadow-blue-900/10"
+                            className="md:col-span-2 relative aspect-[14/9] md:aspect-[4/5] rounded-[32px] md:rounded-[48px] overflow-hidden shadow-[0_20px_50px_rgba(59,130,246,0.15)] group"
                         >
                             <Image
-                                src="/images/landing/clean_water.png"
+                                src="/images/landing/clean_water_v2.png"
                                 alt="Crystal Clear Water"
                                 fill
-                                className="object-cover"
+                                className="object-cover transition-transform duration-700 group-hover:scale-110"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 via-transparent to-transparent" />
+
+                            {/* Floating Highlight Detail */}
+                            <div className="absolute bottom-6 left-6 right-6 p-4 backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl flex items-center gap-3">
+                                <div className="h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-lg">
+                                    <ShieldCheck className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-black text-blue-200 uppercase tracking-widest leading-none mb-1">Pureza Certificada</p>
+                                    <p className="text-white font-bold text-xs">Agua 100% segura para niños</p>
+                                </div>
+                            </div>
                         </motion.div>
 
                         <div className="md:col-span-3 space-y-8">
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black leading-none tracking-tighter text-slate-900 dark:text-white">
+                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tighter text-slate-900 dark:text-white">
                                 {t("importance.title")} <br />
-                                <span className="text-blue-600 italic">{t("importance.subtitle")}</span>
+                                <span className="text-blue-600 italic block mt-1">{t("importance.subtitle")}</span>
                             </h2>
-                            <div className="space-y-4 text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl">
+                            <div className="space-y-4 text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl">
                                 <p>{t("importance.text_1")}</p>
-                                <p className="font-bold text-slate-900 dark:text-white">
+                                <p className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                    <span className="w-8 h-px bg-blue-500 hidden sm:block" />
                                     {t("importance.text_2")}
                                 </p>
                             </div>
 
-                            <div className="grid gap-5">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
                                 {[
                                     { icon: ShieldCheck, title: t("importance.feature_1_title"), desc: t("importance.feature_1_desc") },
                                     { icon: Zap, title: t("importance.feature_2_title"), desc: t("importance.feature_2_desc") },
@@ -139,14 +151,14 @@ export function LandingPage() {
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
                                         transition={{ delay: i * 0.1 }}
-                                        className="flex gap-5 p-5 rounded-3xl bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/50 dark:shadow-slate-950/50 border border-slate-100 dark:border-slate-800"
+                                        className="flex gap-4 p-4 rounded-2xl bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow"
                                     >
-                                        <div className="h-12 w-12 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
-                                            <item.icon className="h-6 w-6" />
+                                        <div className="h-10 w-10 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+                                            <item.icon className="h-5 w-5" />
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-slate-900 dark:text-white text-base mb-1">{item.title}</h4>
-                                            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{item.desc}</p>
+                                            <h4 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base mb-0.5">{item.title}</h4>
+                                            <p className="text-[12px] sm:text-xs text-slate-500 dark:text-slate-400 leading-tight">{item.desc}</p>
                                         </div>
                                     </motion.div>
                                 ))}
@@ -157,18 +169,18 @@ export function LandingPage() {
             </section>
 
             {/* Risks & Diseases Section */}
-            <section className="py-16 px-6 bg-slate-50 dark:bg-slate-900/50">
+            <section className="py-20 px-4 sm:px-6 bg-slate-50 dark:bg-slate-900/50">
                 <div className="container mx-auto">
-                    <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-4 tracking-tight px-4">
+                    <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 tracking-tight px-2 leading-tight">
                             {t("risks.title")} <br /><span className="text-red-500 uppercase">{t("risks.subtitle")}</span>
                         </h2>
-                        <p className="text-slate-500 dark:text-slate-400 font-medium text-xs sm:text-sm px-6">
+                        <p className="text-slate-600 dark:text-slate-400 font-medium text-base sm:text-lg px-2 max-w-2xl mx-auto leading-relaxed">
                             {t("risks.intro")}
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-12 items-center">
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 items-center">
                         <div className="md:col-span-3 grid grid-cols-1 gap-4 order-2 md:order-1">
                             {[
                                 { title: t("risks.risk_1_name"), level: t("risks.level_alto"), desc: t("risks.risk_1_desc") },
@@ -181,13 +193,13 @@ export function LandingPage() {
                                     initial={{ opacity: 0, scale: 0.98 }}
                                     whileInView={{ opacity: 1, scale: 1 }}
                                     viewport={{ once: true }}
-                                    className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm flex justify-between items-center group hover:border-red-100 dark:hover:border-red-900/30 transition-all"
+                                    className="p-5 sm:p-6 rounded-[24px] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm flex justify-between items-center group hover:border-red-200 dark:hover:border-red-900/30 transition-all hover:shadow-md"
                                 >
                                     <div className="flex-1">
-                                        <h4 className="font-bold text-slate-800 dark:text-white uppercase tracking-tight text-sm sm:text-base">{risk.title}</h4>
-                                        <p className="text-[10px] sm:text-xs text-slate-500 max-w-xs mt-0.5">{risk.desc}</p>
+                                        <h4 className="font-bold text-slate-900 dark:text-white uppercase tracking-tight text-base sm:text-lg mb-1">{risk.title}</h4>
+                                        <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md leading-relaxed">{risk.desc}</p>
                                     </div>
-                                    <div className={`px-2 py-0.5 rounded text-[8px] sm:text-[9px] font-black tracking-widest border shrink-0 ml-4 ${risk.level === t("risks.level_critico") ? 'bg-red-50 text-red-600 border-red-100' : 'bg-orange-50 text-orange-600 border-orange-100'
+                                    <div className={`px-3 py-1 rounded-full text-[10px] sm:text-xs font-black tracking-widest border shrink-0 ml-4 ${risk.level === t("risks.level_critico") ? 'bg-red-50 text-red-600 border-red-100' : 'bg-orange-50 text-orange-600 border-orange-100'
                                         }`}>
                                         {risk.level}
                                     </div>
