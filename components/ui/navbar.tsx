@@ -16,7 +16,6 @@ export function Navbar() {
     const [isLangOpen, setIsLangOpen] = useState(false);
 
     return (
-    return (
         <nav className="w-full border-b bg-white dark:bg-slate-900 px-4 sm:px-6 py-4 flex items-center justify-between sticky top-0 z-50">
             <Link href="/" className="flex items-center gap-2 group">
                 <Droplets className="h-6 w-6 text-blue-500 group-hover:scale-110 transition-transform" />
