@@ -16,10 +16,11 @@ export function Navbar() {
     const [isLangOpen, setIsLangOpen] = useState(false);
 
     return (
-        <nav className="w-full border-b bg-white dark:bg-slate-900 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+    return (
+        <nav className="w-full border-b bg-white dark:bg-slate-900 px-4 sm:px-6 py-4 flex items-center justify-between sticky top-0 z-50">
             <Link href="/" className="flex items-center gap-2 group">
                 <Droplets className="h-6 w-6 text-blue-500 group-hover:scale-110 transition-transform" />
-                <span className="text-xl font-bold tracking-tighter">aqualabia</span>
+                <span className="text-xl font-bold tracking-tighter hidden sm:inline">aqualabia</span>
             </Link>
 
             <div className="flex items-center gap-2 md:gap-4">
@@ -116,10 +117,10 @@ export function Navbar() {
                 ) : (
                     <div className="flex gap-2">
                         <Link href="/login">
-                            <Button variant="ghost">{t("common.login")}</Button>
+                            <Button variant="ghost" size="sm">{t("common.login")}</Button>
                         </Link>
                         <Link href="/register">
-                            <Button>{t("common.register")}</Button>
+                            <Button size="sm">{t("common.register")}</Button>
                         </Link>
                     </div>
                 )}
