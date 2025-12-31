@@ -266,29 +266,29 @@ export function LandingPage() {
             </section>
 
             {/* CTA Final */}
-            <section className="py-20 px-6">
+            <section className="py-12 sm:py-20 px-4 sm:px-6">
                 <div className="container mx-auto max-w-5xl">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className="p-10 md:p-14 rounded-[40px] bg-gradient-to-br from-blue-600 to-cyan-500 text-white text-center relative overflow-hidden"
+                        className="p-6 sm:p-10 md:p-14 rounded-[32px] sm:rounded-[40px] bg-gradient-to-br from-blue-600 to-cyan-500 text-white text-center relative overflow-hidden"
                     >
                         <Droplets className="absolute -top-10 -right-10 h-64 w-64 text-white/10 rotate-12" />
                         <Waves className="absolute -bottom-10 -left-10 h-64 w-64 text-white/5" />
 
-                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-[1.1] px-4">
+                        <h2 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-[1.1] px-2 sm:px-4">
                             {t("cta_final.title")}
                         </h2>
-                        <p className="max-w-md md:max-w-xl mx-auto text-blue-100 text-sm sm:text-base md:text-lg font-medium mb-10 leading-relaxed px-6">
+                        <p className="max-w-md md:max-w-xl mx-auto text-blue-100 text-sm sm:text-base md:text-lg font-medium mb-8 sm:mb-10 leading-relaxed px-2 sm:px-6 text-balance">
                             {t("cta_final.subtitle")}
                         </p>
-                        <Link href="/register">
-                            <Button className="h-16 px-12 rounded-2xl bg-white text-blue-600 hover:bg-blue-50 text-xl font-black shadow-2xl transition-all hover:scale-105 active:scale-95">
+                        <Link href="/register" className="block sm:inline-block w-full sm:w-auto">
+                            <Button className="w-full sm:w-auto h-14 sm:h-16 px-8 sm:px-12 rounded-full bg-white text-blue-600 hover:bg-blue-50 text-lg sm:text-xl font-black shadow-2xl transition-all hover:scale-105 active:scale-95">
                                 {t("common.create_account")}
                             </Button>
                         </Link>
-                        <p className="mt-8 text-blue-200 text-xs font-bold uppercase tracking-[0.2em]">{t("cta_final.tagline")}</p>
+                        <p className="mt-8 text-blue-200 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em]">{t("cta_final.tagline")}</p>
                     </motion.div>
                 </div>
             </section>
